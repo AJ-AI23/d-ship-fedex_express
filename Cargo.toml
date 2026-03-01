@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "contracts/shipment",
+    "contracts/shipment/meta",
+    "contracts/tracker",
+    "contracts/tracker/meta",
+    "contracts/serial",
+    "contracts/serial/meta",
+    "contracts/parcel",
+    "contracts/parcel/meta",
+]
