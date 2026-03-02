@@ -44,7 +44,8 @@ jobs:
 
       - name: Build smart contract
         run: |
-          cargo run --manifest-path "${{ inputs.contract_path }}/meta/Cargo.toml" -- build
+          cd "${{ inputs.contract_path }}/meta"
+          cargo run build
 
       - name: Resolve network settings
         id: network
