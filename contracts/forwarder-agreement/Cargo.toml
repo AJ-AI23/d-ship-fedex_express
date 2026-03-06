@@ -1,0 +1,15 @@
+[package]
+name = "forwarder-agreement"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Carrier-forwarder agreement: forwarder receives payment for handling (PUDO, terminal/DC)"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+multiversx-sc = "0.57.1"
+
+[dev-dependencies.multiversx-sc-scenario]
+version = "0.57.1"

@@ -1,0 +1,18 @@
+[package]
+name = "agreement"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Per-customer agreement and billing authority for carrier-customer shipping"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+multiversx-sc = "0.57.1"
+dship-common = { path = "../../crates/dship-common" }
+forwarder-agreement = { path = "../forwarder-agreement" }
+tracker = { path = "../tracker" }
+
+[dev-dependencies.multiversx-sc-scenario]
+version = "0.57.1"

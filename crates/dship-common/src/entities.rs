@@ -4,8 +4,9 @@
 
 use multiversx_sc::{
     api::ManagedTypeApi,
-    codec::{NestedDecode, NestedEncode, TopDecode, TopEncode},
-    types::{BigUint, ManagedAddress, ManagedBuffer, ManagedVec},
+    codec::{self, derive::*},
+    derive::ManagedVecItem,
+    types::{ManagedAddress, ManagedBuffer, ManagedVec},
 };
 
 /// Address location (required: streetName, postalCode, city, countryCode).
@@ -40,11 +41,14 @@ impl PartyRoles {
 }
 
 /// Party reference: type (ADDRESS|PUDO) + role + address id.
+/// When party has DELIVERY role and type PUDO, forwarder_agreement_addr identifies the forwarder.
 #[derive(Clone)]
 pub struct Party<M: ManagedTypeApi> {
     pub party_type: ManagedBuffer<M>, // "ADDRESS" | "PUDO"
     pub roles: ManagedVec<M, ManagedBuffer<M>>,
     pub address_id: ManagedBuffer<M>,
+    /// ForwarderAgreement contract address when this party is the delivery handler.
+    pub forwarder_agreement_addr: Option<ManagedAddress<M>>,
 }
 
 /// Weight units per parcel.schema.json weightUnit enum.
@@ -58,7 +62,7 @@ impl ParcelWeightUnit {
 }
 
 /// Dangerous goods item. parcel.schema.json dangerousGoods maxItems: 1.
-#[derive(Clone, TopEncode, TopDecode, NestedEncode, NestedDecode)]
+#[derive(Clone, TopEncode, TopDecode, NestedEncode, NestedDecode, ManagedVecItem)]
 pub struct DangerousGoods<M: ManagedTypeApi> {
     pub net_quantity: u64,
     pub net_quantity_unit: ManagedBuffer<M>,
@@ -98,6 +102,14 @@ pub struct Shipment<M: ManagedTypeApi> {
 #[derive(Clone)]
 pub struct TrackingEvent<M: ManagedTypeApi> {
     pub tracking_number: ManagedBuffer<M>,
+    pub event_type: ManagedBuffer<M>, // BOOKED | DISPATCHED | IN_TRANSIT | etc.
+    pub timestamp: u64,
+    pub location: ManagedBuffer<M>,
+}
+
+/// Compact tracking event for on-chain storage (tracking_number is the storage key).
+#[derive(Clone, TopEncode, TopDecode, NestedEncode, NestedDecode, ManagedVecItem)]
+pub struct TrackingEventRecord<M: ManagedTypeApi> {
     pub event_type: ManagedBuffer<M>, // BOOKED | DISPATCHED | IN_TRANSIT | etc.
     pub timestamp: u64,
     pub location: ManagedBuffer<M>,

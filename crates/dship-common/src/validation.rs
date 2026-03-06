@@ -91,7 +91,7 @@ pub fn validate_country(
         None => true,
         Some(allowed) => {
             for cc in allowed.iter() {
-                if &cc == country_code {
+                if cc.to_boxed_bytes().as_slice() == country_code.to_boxed_bytes().as_slice() {
                     return true;
                 }
             }
@@ -101,12 +101,7 @@ pub fn validate_country(
 }
 
 /// Tracker event types (harmonized status).
+/// Re-exported from `tracking_events::harmonized` for backward compatibility.
 pub mod event_types {
-    pub const BOOKED: &str = "BOOKED";
-    pub const DISPATCHED: &str = "DISPATCHED";
-    pub const IN_TRANSIT: &str = "IN_TRANSIT";
-    pub const OUT_FOR_DELIVERY: &str = "OUT_FOR_DELIVERY";
-    pub const DELIVERED: &str = "DELIVERED";
-    pub const EXCEPTION: &str = "EXCEPTION";
-    pub const VOID: &str = "VOID";
+    pub use crate::tracking_events::harmonized::*;
 }

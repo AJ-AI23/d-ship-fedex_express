@@ -1,0 +1,16 @@
+[package]
+name = "onboarding"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Onboarding: deploys Agreement contracts after verifying customer signatures"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+multiversx-sc = "0.57.1"
+dship-common = { path = "../../crates/dship-common" }
+
+[dev-dependencies.multiversx-sc-scenario]
+version = "0.57.1"
